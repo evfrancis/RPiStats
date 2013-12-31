@@ -1,0 +1,17 @@
+Required:
+sudo apt-get install lighttpd
+sudo apt-get install php5-common php5-cgi php5
+sudo apt-get install gnuplot
+
+Actions (after required):
+sudo lighty-enable-mod fastcgi-php
+sudo service lighttpd force-reload
+
+Setup:
+Edit data/data.txt softlink to point to your data
+Add the following to crontab:
+20 * * * * perl /var/www/scripts/stats.pl >> /var/www/data/data.txt &> /dev/null
+0 * * * * export time_period=24; gnuplot /var/www/scripts/grph_stats.plt
+0 * * * * export time_period=168; gnuplot /var/www/scripts/grph_stats.plt
+0 * * * * export time_period=720; gnuplot /var/www/scripts/grph_stats.plt
+0 * * * * export time_period=8760; gnuplot /var/www/scripts/grph_stats.plt
