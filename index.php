@@ -1,18 +1,30 @@
 <Title>Rasperry Pi Stats</Title>
+<!-- Weclome to the RPiStats project. This site shows stats from a raspberry pi running raspbmc. 
+
+Site Basics:
+Backend:
+- Gnuplot (graphing)
+- Perl/Bash (data gathering)
+- Crontab (automating)
+
+Frontend:
+- PHP
+- HTML5/Javascript
+-->
 <?php 
 
+# For use in real time stats table
 $titles = array("Up", "Users", "Load<BR>(1 Min)", "Load<BR>(5 Min)", "Load<BR>(15 Min)");
+
 $clocks = array("arm", "gpu", "core", "sdram");
 
-$uptime = exec('uptime');
-$pattern = '/([0-9])/';
-$replacement = '$1';
-
+# Run uptime and get parsed data in $end
 $string = exec('uptime'); 
 $pattern = '/up (.*),  (\d+) users?,  load average: ([0-9].[0-9]+), ([0-9].[0-9]+), ([0-9].[0-9]+)/i';
 preg_match($pattern, $string, $end);
 
 for ($i=0; $i < 4 ; $i++) {
+    # Not working yet
     $string = exec("vcgencmd measure_clock $clocks[$i]");
 }
 
@@ -40,6 +52,7 @@ function showImage(id) {
                     </tr>
 <?php
     for ($i = 0; $i < 5; $i++) {
+        # Generate real time stats table
         echo "\t\t\t<tr>\n";
         echo "\t\t\t\t<td>$titles[$i]</td>\n\t\t\t\t<td>" . $end[$i + 1] . "</td>\n";
         echo "\t\t\t</tr>\n";
