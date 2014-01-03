@@ -1,6 +1,6 @@
 set terminal png size 1100,600
 set xdata time
-set timefmt "%b-%d-%H:%M:%S-Y"
+set timefmt "%b-%d-%H:%M:%S-%Y"
 set grid
 set output "/var/www/data/load_`echo $time_period`.png"
 set multiplot
